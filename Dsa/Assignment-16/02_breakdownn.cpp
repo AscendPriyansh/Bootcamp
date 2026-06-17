@@ -5,23 +5,13 @@ int main() {
     long long n;
     cin>>n;
 
-    long long curr=1;
-    while(curr<=n) {
-        curr*=2;
-    }
-    curr/=2;
-    cout<<curr<<" ";
-
-    long long sum = curr;
-    while(curr>1) {
-        sum += (curr/=2);
-        if(sum<=n) {
-            cout<<curr<<" ";
-        }
-        else {
-            sum-=curr;
+    for(int i=62; i>=0; i--) {
+        if ((n >> i) & 1) {
+            long long power_of_two = 1LL << i;
+            cout << power_of_two << " ";
         }
     }
 
     return 0;
 }
+

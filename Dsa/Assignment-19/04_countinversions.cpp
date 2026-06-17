@@ -1,13 +1,14 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-void merge(vector<long long>& v, int l, int r) {
+long long merge(vector<long long>& v, int l, int r) {
+    vector<long long> temp;
     int mid = (l+r)/2;
 
-    vector<long long> temp;
+    int i = l;
+    int j = mid+1;
 
-    int i=l;
-    int j=mid+1;
+    long long ans3=0;
 
     while(i<=mid && j<=r) {
         if(v[i]<=v[j]) {
@@ -17,6 +18,7 @@ void merge(vector<long long>& v, int l, int r) {
         else {
             temp.push_back(v[j]);
             j++;
+            ans3+=(mid-i+1);
         }
     }
 
@@ -31,27 +33,25 @@ void merge(vector<long long>& v, int l, int r) {
     }
 
     int ptr=0;
-    cout<<"Merge: ["<<l<<" "<<r<<"]"<<" -> ";
     for(int i=l; i<=r; i++) {
         v[i]=temp[ptr];
-        ptr++;
-        cout<<v[i]<<" ";
+        ptr++;  
     }
-    cout<<"\n";
+
+    return ans3;
 }
 
-void f(vector<long long>& v, int l, int r) {
-    if(l==r) {
-        return;
-    }
+long long f(vector<long long>& v, int l, int r) {
+    if(l==r) return 0;
 
-    int mid = (l + r)/2;
+    int mid = (l+r)/2;
 
-    cout<<"Divide: ["<<l<<" "<<r<<"]"<<"\n";
-    f(v, l, mid);
-    f(v, mid+1, r);
+    long long ans1 = f(v, l, mid);
+    long long ans2 = f(v, mid+1, r);
 
-    merge(v, l, r);
+    long long ans3 = merge(v, l, r);
+
+    return ans1+ans2+ans3;
 }
 
 int main() {
@@ -62,7 +62,7 @@ int main() {
         cin>>v[i];
     }
 
-    f(v, 0, n-1);
+    cout<<f(v, 0, n-1);
 
     return 0;
 }

@@ -1,37 +1,47 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 int main() {
-    int test;
-    cin>>test;
-
-    while(test--) {
-        int n, m;
+    int t;
+    cin>>t;
+    
+    while(t--) {
+        int n;
         cin>>n;
-        vector<int> arr1(n);
+    
+        vector<int> v(n);
         for(int i=0; i<n; i++) {
-            cin>>arr1[i];
+            cin>>v[i];
         }
-
+        
+        int m;
         cin>>m;
-        vector<int> arr2(m);
+        
+        vector<int> q(m);
         for(int i=0; i<m; i++) {
-            cin>>arr2[i];
+            cin>>q[i];
         }
-
-        set<int> res;
-
+        
+        unordered_map<int, int> mpp;
+        
+        for(int i=0; i<m; i++) {
+            mpp[q[i]]++;
+        }
+        
+        vector<int> res;
         for(int i=0; i<n; i++) {
-            res.insert(arr1[i]);
+            if(mpp[v[i]]>0) {
+                res.push_back(v[i]);
+                mpp[v[i]]--;
+            }
         }
-        for(int i=0; i<m; i++) {
-            res.insert(arr2[i]);
+    
+        
+        for(int i=0; i<res.size(); i++) {
+            cout<<res[i]<<" ";
         }
-
-        for(auto x : res) {
-            cout<<x<<" ";
-        }
-        cout<<endl;
+        cout<<"\n";
+    
     }
 
     return 0;

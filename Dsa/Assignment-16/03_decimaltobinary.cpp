@@ -1,26 +1,42 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-int main() {
+int main()
+{
     long long n;
     cin >> n;
 
-    long long curr = 1;
-    while(curr <= n) curr *= 2;
-    curr /= 2;
+    string s;
 
-    string ans = "";
+    // while(n>0) {
+    //     long long bit = (n&1);
+    //     s+=(bit+'0');
+    //     n>>=1;
+    // }
 
-    while(curr > 0) {
-        if(curr <= n) {
-            ans += '1';
-            n -= curr;
-        } else {
-            ans += '0';
-        }
-        curr /= 2;
+    // reverse(s.begin(), s.end());
+
+    // cout<<s;
+
+    // METHOD - 2
+
+    // edge case for n = 0;
+
+    if(n==0) {
+        cout<<0;
+        return 0;
     }
 
-    cout << ans;
+    bool check = false;
+    for(long long i=62; i>=0; i--) {
+        if((n>>i)&1) {
+            check=true;
+            cout<<1;
+        }
+        else if(check) {
+            cout<<0;
+        }
+    }
+
     return 0;
 }
