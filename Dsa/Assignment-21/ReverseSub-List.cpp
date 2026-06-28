@@ -1,9 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct Node {
+struct Node
+{
     int val;
-    Node* next;
+    Node *next;
 
     Node(int v)
     {
@@ -12,10 +13,10 @@ struct Node {
     }
 };
 
-class LinkedList {
+class LinkedList
+{
 public:
-
-    Node* head;
+    Node *head;
 
     LinkedList()
     {
@@ -24,16 +25,16 @@ public:
 
     void build(int n)
     {
-        Node* tail = nullptr;
+        Node *tail = nullptr;
 
-        for(int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++)
         {
             int x;
             cin >> x;
 
-            Node* node = new Node(x);
+            Node *node = new Node(x);
 
-            if(!head)
+            if (!head)
             {
                 head = tail = node;
             }
@@ -52,24 +53,53 @@ public:
     and return the head of the modified list.
 */
 
-Node* reverseBetween(Node* head, int left, int right) {
-    Node* prev = head;
-    int size = 0;
+Node *reverseBetween(Node *head, int left, int right)
+{
+    if (!head || left == right)
+        return head;
 
-    while(left--) {
-        prev=prev->next;
-    }
-    while(right--) {
-        size++;
-    }
+    Node *start = head;
+    Node *beforeStart = nullptr;
 
-    Node* curr = prev->next;
-    Node* neww = curr->next;
-
-    while(size--) {
-        curr->next=prev;
+    for (int i = 0; i < left - 1; i++)
+    {
+        beforeStart = start;
+        start = start->next;
     }
 
+    Node *end = head;
+    Node *afterEnd = nullptr;
+
+    for (int i = 0; i < right - 1; i++)
+    {
+        end = end->next;
+        afterEnd = end;
+    }
+    afterEnd = afterEnd->next;
+
+    Node *prev = nullptr;
+    Node *curr = start;
+    Node *fut = nullptr;
+
+    while (curr != afterEnd)
+    {
+        fut = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = fut;
+    }
+
+    if (beforeStart != nullptr)
+    {
+        beforeStart->next = prev;
+    }
+    else
+    {
+        head = prev;
+    }
+    start->next = afterEnd;
+
+    return head;
 }
 
 int main()
@@ -89,13 +119,13 @@ int main()
 
     ll.head = reverseBetween(ll.head, left, right);
 
-    Node* cur = ll.head;
+    Node *cur = ll.head;
 
     bool first = true;
 
-    while(cur)
+    while (cur)
     {
-        if(!first)
+        if (!first)
         {
             cout << ' ';
         }
