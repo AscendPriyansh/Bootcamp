@@ -6,21 +6,34 @@ using namespace std;
 */
 class MinStack {
 public:
+    stack<pair<long long, long long>> s;
+    long long mini=INT_MAX;
+
     void push(long long x) {
-        // implement
+        if(s.empty()) {
+            s.push({x, x});
+        }
+        else {
+            s.push({x, min(x, s.top().second)});
+        }
     }
 
     void pop() {
-        // implement
+        if(!s.empty()) {
+            s.pop();
+        }
     }
 
     long long top() {
-        // implement
+        if(!s.empty()) return s.top().first;
+
         return -1;
     }
 
     long long getMin() {
-        // implement
+        if (!s.empty()) {
+            return s.top().second;
+        }
         return -1;
     }
 };
