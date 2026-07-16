@@ -12,17 +12,31 @@ int main() {
     stack<int> s;
     vector<int> leftSmaller(n, -1);
     for(int i=0; i<n; i++) {
-        while(!s.empty() && v[s.top()]>v[i]) {
+        while(!s.empty() && v[s.top()]>=v[i]) {
             s.pop();
         }
-        if(!s.empty() && v[s.top()]<v[i]) leftSmaller[i]=s.top();
+        if(!s.empty()) leftSmaller[i]=s.top();
         s.push(i);
     }
 
-    for(int i=0; i<n; i++) {
-        cout<<leftSmaller<<" ";
+    s = stack<int>();
+    vector<int> rightSmaller(n, -1);
+    for(int i=n-1; i>=0; i--) {
+        while(!s.empty() && v[s.top()]>=v[i]) {
+            s.pop();
+        }
+        if(!s.empty()) rightSmaller[i]=s.top();
+        s.push(i);
     }
 
+    int ans=0;
+    for(int i=0; i<n; i++) {
+        int h=v[i];
+        int w=rightSmaller[i]-leftSmaller[i]-1;
+        ans=max(ans, h*w);
+    }
+
+    cout<<ans;
 
     return 0;
 }
