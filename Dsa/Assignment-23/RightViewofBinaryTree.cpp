@@ -35,7 +35,7 @@ TreeNode* buildTree(const vector<string>& nodes) {
 }
 
 // ================= STUDENT FUNCTION =================
-vector<long long> leftView(TreeNode* root) {
+vector<long long> rightView(TreeNode* root) {
     vector<long long> v;
 
     if(root==nullptr) {
@@ -52,7 +52,7 @@ vector<long long> leftView(TreeNode* root) {
             TreeNode* store = q.front();
             q.pop();
 
-            if(i==0) {
+            if(i==n-1) {
                 v.push_back(store->val);
             }
 
@@ -77,7 +77,7 @@ int main() {
 
     TreeNode* root = buildTree(nodes);
 
-    vector<long long> ans = leftView(root);
+    vector<long long> ans = rightView(root);
 
     for (int i = 0; i < ans.size(); i++) {
         if (i) cout << " ";
