@@ -2,15 +2,15 @@
 using namespace std;
 
 struct TreeNode {
-    int val;
+    long long val;
     TreeNode *left, *right;
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(long long x) : val(x), left(nullptr), right(nullptr) {}
 };
 
 TreeNode* buildTree(const vector<string>& nodes) {
     if (nodes.empty() || nodes[0] == "null") return nullptr;
 
-    TreeNode* root = new TreeNode(stoi(nodes[0]));
+    TreeNode* root = new TreeNode(stoll(nodes[0]));
     queue<TreeNode*> q;
     q.push(root);
 
@@ -20,13 +20,13 @@ TreeNode* buildTree(const vector<string>& nodes) {
         q.pop();
 
         if (nodes[i] != "null") {
-            cur->left = new TreeNode(stoi(nodes[i]));
+            cur->left = new TreeNode(stoll(nodes[i]));
             q.push(cur->left);
         }
         i++;
 
         if (i < nodes.size() && nodes[i] != "null") {
-            cur->right = new TreeNode(stoi(nodes[i]));
+            cur->right = new TreeNode(stoll(nodes[i]));
             q.push(cur->right);
         }
         i++;
@@ -34,23 +34,29 @@ TreeNode* buildTree(const vector<string>& nodes) {
     return root;
 }
 
-// ================= IMPLEMENT FUNCTION =================
-void PreOrder(TreeNode* root, vector<int>& v) {
+// ================= STUDENT FUNCTION =================
+void Minicooper(TreeNode* root, long long& mini) {
     if(root==nullptr) {
         return;
     }
     else {
-        v.push_back(root->val);
+        if(root->val<mini) {
+            mini=root->val;
+        }
     }
-    PreOrder(root->left, v);
-    PreOrder(root->right, v);
+    Minicooper(root->left, mini);
+    Minicooper(root->right, mini);
 }
 
-vector<int> preorderTraversal(TreeNode* root) {
-    vector<int> v;
-    PreOrder(root, v);
+long long minOfTree(TreeNode* root) {
+    if(root==nullptr) {
+        return 0LL;
+    }
     
-    return v;
+    long long mini = LLONG_MAX;
+    Minicooper(root, mini);
+
+    return mini;
 }
 // ====================================================
 
@@ -60,16 +66,11 @@ int main() {
 
     int n;
     cin >> n;
+
     vector<string> nodes(n);
     for (int i = 0; i < n; i++) cin >> nodes[i];
 
     TreeNode* root = buildTree(nodes);
 
-    vector<int> result = preorderTraversal(root);
-
-    for (int i = 0; i < result.size(); i++) {
-        if (i) cout << " ";
-        cout << result[i];
-    }
-    cout << '\n';
+    cout << minOfTree(root) << '\n';
 }

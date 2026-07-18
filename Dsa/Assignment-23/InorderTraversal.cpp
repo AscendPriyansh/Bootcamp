@@ -34,22 +34,20 @@ TreeNode* buildTree(const vector<string>& nodes) {
     return root;
 }
 
-// ================= IMPLEMENT FUNCTION =================
-void PreOrder(TreeNode* root, vector<int>& v) {
+// ================= STUDENT FUNCTION =================
+void InOrder(TreeNode* root, vector<int>& v) {
     if(root==nullptr) {
         return;
     }
-    else {
-        v.push_back(root->val);
-    }
-    PreOrder(root->left, v);
-    PreOrder(root->right, v);
+    InOrder(root->left, v);
+    v.push_back(root->val);
+    InOrder(root->right, v);
 }
 
-vector<int> preorderTraversal(TreeNode* root) {
+vector<int> inorderTraversal(TreeNode* root) {
     vector<int> v;
-    PreOrder(root, v);
-    
+    InOrder(root, v);
+
     return v;
 }
 // ====================================================
@@ -65,7 +63,7 @@ int main() {
 
     TreeNode* root = buildTree(nodes);
 
-    vector<int> result = preorderTraversal(root);
+    vector<int> result = inorderTraversal(root);
 
     for (int i = 0; i < result.size(); i++) {
         if (i) cout << " ";

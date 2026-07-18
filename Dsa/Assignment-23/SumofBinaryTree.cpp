@@ -2,15 +2,15 @@
 using namespace std;
 
 struct TreeNode {
-    int val;
+    long long val;
     TreeNode *left, *right;
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(long long x) : val(x), left(nullptr), right(nullptr) {}
 };
 
 TreeNode* buildTree(const vector<string>& nodes) {
     if (nodes.empty() || nodes[0] == "null") return nullptr;
 
-    TreeNode* root = new TreeNode(stoi(nodes[0]));
+    TreeNode* root = new TreeNode(stoll(nodes[0]));
     queue<TreeNode*> q;
     q.push(root);
 
@@ -20,13 +20,13 @@ TreeNode* buildTree(const vector<string>& nodes) {
         q.pop();
 
         if (nodes[i] != "null") {
-            cur->left = new TreeNode(stoi(nodes[i]));
+            cur->left = new TreeNode(stoll(nodes[i]));
             q.push(cur->left);
         }
         i++;
 
         if (i < nodes.size() && nodes[i] != "null") {
-            cur->right = new TreeNode(stoi(nodes[i]));
+            cur->right = new TreeNode(stoll(nodes[i]));
             q.push(cur->right);
         }
         i++;
@@ -34,23 +34,23 @@ TreeNode* buildTree(const vector<string>& nodes) {
     return root;
 }
 
-// ================= IMPLEMENT FUNCTION =================
-void PreOrder(TreeNode* root, vector<int>& v) {
+// ================= STUDENT FUNCTION =================
+void SumTree(TreeNode* root, long long& sum) {
     if(root==nullptr) {
         return;
     }
     else {
-        v.push_back(root->val);
+        sum+=root->val;
     }
-    PreOrder(root->left, v);
-    PreOrder(root->right, v);
+    SumTree(root->left, sum);
+    SumTree(root->right, sum);
 }
 
-vector<int> preorderTraversal(TreeNode* root) {
-    vector<int> v;
-    PreOrder(root, v);
-    
-    return v;
+long long sumOfTree(TreeNode* root) {
+    long long sum=0;
+    SumTree(root, sum);
+
+    return sum;
 }
 // ====================================================
 
@@ -60,16 +60,11 @@ int main() {
 
     int n;
     cin >> n;
+
     vector<string> nodes(n);
     for (int i = 0; i < n; i++) cin >> nodes[i];
 
     TreeNode* root = buildTree(nodes);
 
-    vector<int> result = preorderTraversal(root);
-
-    for (int i = 0; i < result.size(); i++) {
-        if (i) cout << " ";
-        cout << result[i];
-    }
-    cout << '\n';
+    cout << sumOfTree(root) << '\n';
 }
