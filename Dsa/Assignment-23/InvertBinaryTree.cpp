@@ -63,16 +63,13 @@ string serialize(TreeNode* root) {
     Invert the binary tree (swap every node's left and right subtrees)
     and return the new root.
 */
-bool invert(TreeNode* root1, TreeNode* root2) {
-    if(root1==nullptr && root2==nullptr) return true;
-    if(root1==nullptr || root2==nullptr) return false;
-    
-    swap(root1->val, root2->val);
-    return invert(root1->left, root2->right) && invert(root1->right, root2->left);
-}
-
 TreeNode* invertTree(TreeNode* root) {
-    invert(root->left, root->right);
+    if(root==nullptr) return nullptr;
+
+    invertTree(root->left);
+    invertTree(root->right);
+
+    swap(root->left, root->right);
     return root;
 }
 
