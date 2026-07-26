@@ -39,8 +39,59 @@ TreeNode* buildTree(const vector<string>& nodes) {
     Return the anti-clockwise boundary traversal of the binary tree
     (root, left boundary, leaves left-to-right, right boundary).
 */
-vector<int> boundary(TreeNode* root) {
+void Preorder(TreeNode* root, vector<int>& v) {
+    if(root==nullptr) return;
+
+    if(root->left==nullptr && root->right==nullptr) return;
+    v.push_back(root->val);
+
+    if (root->left) Preorder(root->left, v);
+    else Preorder(root->right, v);
+}
+
+void PreOrder(TreeNode* root, vector<int>& v) {
+    if(root==nullptr) return;
+
+    else {
+        if(root->left==nullptr && root->right==nullptr) {
+            v.push_back(root->val);
+            return;
+        }
+    }
+
+    PreOrder(root->left, v);
+    PreOrder(root->right, v);
+}
+
+void PreOrderRight(TreeNode* root, vector<int>& temp) {
+    if(root==nullptr) return;
+
+    if(root->left==nullptr && root->right==nullptr) return;
+    temp.push_back(root->val);
     
+    if (root->right) PreOrderRight(root->right, temp);
+    else PreOrderRight(root->left, temp);
+}
+
+
+vector<int> boundary(TreeNode* root) {
+    vector<int> v;
+    if (root == nullptr) return v;
+
+    if (root->left != nullptr || root->right != nullptr) {
+        v.push_back(root->val);
+    }
+
+    Preorder(root->left, v);
+    PreOrder(root, v);
+    vector<int> temp;
+    PreOrderRight(root->right, temp);
+
+    for(int i=temp.size()-1; i>=0; i--) {
+        v.push_back(temp[i]);
+    }
+
+    return v;
 }
 
 int main() {
